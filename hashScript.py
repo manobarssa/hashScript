@@ -24,21 +24,43 @@ def main():
                                                                            ''')
     parser.add_argument('-a', dest='alg', metavar='Algorithm', type=str, 
                         help=algs, required=True)
+    parser.add_argument('-o', dest='outfile', metavar='Out File',
+                        help='File path to write the hashes.')
+    
+    #add a muttyally exclusive group
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument('-f', dest='files', metavar='File(s)', 
+    mode.add_argument('-f', dest='file', metavar='File', 
                       help='Path to file or * to all under current Work Directory.',)
     mode.add_argument('-s', dest='string', metavar='String', 
                       help='String to hash.')
-    args = parser.parse_args()
+    mode.add_argument('-fL', dest='fileList', metavar='File List', 
+                      help='Path to text file with files (paths) to hash.')
+    mode.add_argument('-sL', dest='stringList', metavar='String List', 
+                      help='Path to text file with strings (lines) to hash.')
     
+    
+    args = parser.parse_args()
+    #Hash string.
     if args.string is not None and args.alg.lower() != 'all':
         alg = args.alg.lower()
         string = args.string
-        print('{}: {}'.format(alg, stringHasher(string, alg)))
+        if args.outfile is not None:
+            with open(args.outfile,'w') as f:
+                f.write('{} : {}'.format(alg, stringHasher(string, alg))+'\n')
+        else:
+            print('{}: {}'.format(alg, stringHasher(string, alg)))
     elif args.string is not None and args.alg == 'all':
         string = args.string
-        for a in hashlib.algorithms_guaranteed:            
-            print('{}: {}'.format(a, stringHasher(string, a)))
+        if args.outfile is not None:
+            with open(args.outfile,'w') as f:
+                for a in hashlib.algorithms_guaranteed:
+                    f.write('{} : {}'.format(a, stringHasher(string, a))+'\n')
+        else:
+            for a in hashlib.algorithms_guaranteed:            
+                print('{}: {}'.format(a, stringHasher(string, a)))
+    
+    #Hash a list of strings from a file.
+    
         
         
 
