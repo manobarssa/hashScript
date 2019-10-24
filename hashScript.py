@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-version 0.2
+version 1.0
 
 @author: @manobarssa
 """
@@ -36,7 +36,7 @@ def main():
     algs = ', '.join(hashlib.algorithms_guaranteed) + '''. Two or more separated
     by comas (ex sha1,sha256). Or all.'''
     parser = argparse.ArgumentParser(description= ''' 
-    Calculate the hash for a file, a list of files, a string or list of strings.
+    Hash a file, a list of files, a string or list of strings.
                                                                            ''')
     parser.add_argument('-a', dest='alg', metavar='Algorithm', type=str, 
                         help=algs, required=True)
@@ -51,10 +51,10 @@ def main():
                       help='String to hash.')
     mode.add_argument('-fL', dest='fileList', metavar='File List', 
                       help='''Path to text file with files (paths) to hash.
-                      Required -o flag and a filepath to write results.''')
+                      -o flag and a filepath to write results are required.''')
     mode.add_argument('-sL', dest='stringList', metavar='String List', 
                       help='''Path to text file with strings (lines) to hash.
-                      Required -o flag and a filepath to write results.''')
+                      -o flag and a filepath to write results are required.''')
         
     args = parser.parse_args()
     if args.alg.lower() == 'all':
@@ -105,7 +105,7 @@ def main():
                 try:
                     print('{}:{}:{}'.format(file, alg, fileHasher(file, alg)))
                 except:
-                    pass #to do ----> print error msgs to file
+                    pass #to do ----> print error msgs
     
     
 if __name__ == '__main__':
