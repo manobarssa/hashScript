@@ -99,15 +99,15 @@ def main():
                         f.write('{}:{}:{}'.format(file, alg, fileHasher(file, alg))+'\n')
                     except:
                         pass #to do ----> print error msgs to file
-    else:         
+    elif args.outfile is None and args.file is not None:         
         for alg in algList:
             for file in fileList:
                 try:
                     print('{}:{}:{}'.format(file, alg, fileHasher(file, alg)))
                 except:
                     pass #to do ----> print error msgs
-    
-    
+                    
+        
 if __name__ == '__main__':
     main()
 
